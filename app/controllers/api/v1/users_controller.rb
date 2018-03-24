@@ -14,24 +14,23 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    user = User.find_by(id: params[:id])
-    if user
-      render json: user
-    else
-      render json: {}
-    end
+    user = User.find(params[:id])
+    render json: user
   end
 
   def update
-    user = User.find_by(id: params[:id])
-    if user
-      if user.update(editable_params)
-        render json: user
-      else
-        render json: user.errors
-      end
+    user = User.find(params[:id])
+    if user.update(editable_params)
+      render json: user
     else
-      render json: {}
+      render json: user.errors
+    end
+  end
+
+  def destroy
+    user = User.find(params[:id])
+    if user.destroy
+      render :nothing
     end
   end
 
